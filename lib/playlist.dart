@@ -30,19 +30,23 @@ class _Playlist extends State<Playlist> {
 
   ReorderableListView reorderablePlaylist(List<String> playlist) {
     return ReorderableListView(
-      children: <Widget>[
-        if (playlist != null)
-          for (var i in playlist)
-            ListTile(
-              trailing: Icon(Icons.drag_handle),
-              key: ValueKey(i),
-              title: Text(i),
-            )
-      ],
-      onReorder: (int oldIndex, int newIndex) {
-        oldIndex = newIndex;
-        newIndex = oldIndex;
-      },
-    );
+        children: <Widget>[
+          if (playlist != null)
+            for (var i in playlist)
+              ListTile(
+                trailing: Icon(Icons.drag_handle),
+                key: ValueKey(i),
+                title: Text(i),
+              )
+        ],
+        onReorder: (int oldIndex, int newIndex) {
+          setState(() {
+            if (newIndex >= oldIndex) {
+              newIndex -= 1;
+            }
+            final String item = playlist.removeAt(oldIndex);
+            playlist.insert(newIndex, item);
+          });
+        });
   }
 }
