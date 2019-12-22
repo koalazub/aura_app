@@ -28,6 +28,7 @@ class PlaylistCheckbox with ChangeNotifier {
 
   FlatButton playListTileState(DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
+    MusicLibraryManager();
     return FlatButton(
       color: Colors.blueAccent,
       child: ListTile(

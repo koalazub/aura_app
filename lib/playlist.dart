@@ -1,3 +1,4 @@
+import 'package:aura_app/Slider.dart';
 import 'package:flutter/material.dart';
 
 class Playlist extends StatefulWidget {
@@ -21,10 +22,18 @@ class _Playlist extends State<Playlist> {
           title: Text('Playlist'),
           centerTitle: true,
         ),
-        body: Container(
-          color: Colors.black,
-          alignment: Alignment.center,
-          child: reorderablePlaylist(widget.playlist),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              child: Container(
+                color: Colors.black,
+                alignment: Alignment.center,
+                child: reorderablePlaylist(widget.playlist),
+              ),
+            ),
+            FloatingActionButton.extended(onPressed: ()=>print('add data to slider on press'), label: Text('Push me')),
+            Expanded(child: SliderClass(2, 10.0, 5.0)),
+          ],
         ));
   }
 
