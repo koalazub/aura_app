@@ -1,7 +1,6 @@
 import 'package:aura_app/MusicLibraryManager.dart';
 import 'package:aura_app/playlist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -21,38 +20,6 @@ class PlaylistCheckbox with ChangeNotifier {
 
   void togglePlaylistMenu() =>
       playlistActive ? playlistActive = false : playlistActive = true;
-
-  bool togglePlaylistCheckedItem() => checkboxItemTicked
-      ? checkboxItemTicked = false
-      : checkboxItemTicked = true;
-
-  FlatButton playListTileState(DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
-    MusicLibraryManager();
-    return FlatButton(
-      color: Colors.blueAccent,
-      child: ListTile(
-          title: Text(record.title),
-          trailing: Text(record.genre),
-          onTap: () => pressedURL = getURL(record.title + '.mp3')),
-      onPressed: () {
-        PlayMusic.playingSongName = record.title;
-        PlayMusic.playStream(pressedURL);
-        PlayMusic.getSongName();
-      },
-    );
-  }
-
-  getURL(String songName) async {
-    String folderDir = 'Demo/' + songName;
-    StorageReference songRef = FirebaseStorage.instance.ref().child(folderDir);
-    try {
-      String url = (await songRef.getDownloadURL()).toString();
-      print('Song URL is $url');
-    } catch (e) {
-      print("song url wasn't captured");
-    }
-  }
 }
 
 class Checkbox extends StatefulWidget {
@@ -173,7 +140,7 @@ class _PlayableList extends State<PlayableList> {
       child: ListTile(
           title: Text(record.title),
           trailing: Text(record.genre),
-          onTap: () => pressedURL = getURL(record.title + '.mp3').toString()),
+          onTap: () => pressedURL = getURL(record.title).toString()),
       onPressed: () {
         PlayMusic.playingSongName = record.title;
         PlayMusic.playStream(pressedURL);

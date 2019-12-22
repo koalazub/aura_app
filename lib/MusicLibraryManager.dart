@@ -180,13 +180,18 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
 
 //TODO button needs to take in string song name from database, search through Storage and return URL based on string argument
 getURL(String songName) async {
-  String folderDir = 'Demo/' + songName;
+  String fileExt = '.mp3';
+  String folderDir = 'Demo/' + songName + fileExt;
   StorageReference songRef = FirebaseStorage.instance.ref().child(folderDir);
   try {
     String url = (await songRef.getDownloadURL()).toString();
+    print('getting file ' +  folderDir);
     print('Song URL is $url');
+    PlayMusic.playStream(url);
+    PlayMusic.playingSongName = songName;
   } catch (e) {
     print("song url wasn't captured");
+    return print('failed to get url');
   }
 }
 

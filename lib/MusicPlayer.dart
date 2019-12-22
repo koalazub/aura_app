@@ -122,6 +122,7 @@ class _MusicPlayer extends State<MusicPlayer> {
         child: FlatButton(
           onPressed: () {
             setState(() {
+              getURL('bensound-allthat');
               toggleIsPlaying();
             });
           },
@@ -136,11 +137,6 @@ class _MusicPlayer extends State<MusicPlayer> {
   }
 
   static void toggleIsPlaying() => isPlay ? isPlay = false : isPlay = true;
-
-  //TODO use to toggle play/pause on song play
-  void changeIconOnPlay(IconData defaultIcon) => PlayMusic.isPlaying
-      ? defaultIcon = Icons.pause
-      : defaultIcon = Icons.play_arrow;
 
   IconData updatePlayIcon(bool isPlaying, IconData defaultIcon) {
     if (isPlaying) {

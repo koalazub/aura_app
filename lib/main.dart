@@ -1,3 +1,4 @@
+import 'package:aura_app/MusicLibraryManager.dart';
 import 'package:aura_app/playlistCheckbox.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MusicLibraryManager();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PlaylistCheckbox()),
