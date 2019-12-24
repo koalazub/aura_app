@@ -1,3 +1,4 @@
+import 'package:aura_app/MusicLibraryManager.dart';
 import 'package:aura_app/Slider.dart';
 import 'package:flutter/material.dart';
 
@@ -7,13 +8,17 @@ class Playlist extends StatefulWidget {
   Playlist({Key key, this.playlist}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _Playlist();
+  State<StatefulWidget> createState() => _Playlist(playlist);
 }
 
 //Retrieve the data from the checkbox list from playlistCheckbox
 // Store in a list
 //Pass the list to Playlist
-class _Playlist extends State<Playlist> {
+class _Playlist extends State<Playlist> with SingleTickerProviderStateMixin {
+  final List<String> playlist;
+
+  _Playlist(this.playlist);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,21 +33,37 @@ class _Playlist extends State<Playlist> {
               child: Container(
                 color: Colors.black,
                 alignment: Alignment.center,
-                child: reorderablePlaylist(widget.playlist),
+                child: reorderablePlaylist(playlist),
               ),
             ),
-            FloatingActionButton.extended(onPressed: ()=>print('add data to slider on press'), label: Text('Push me')),
-            Expanded(child: SliderClass(2, 10.0, 5.0)),
+            Container(
+              height: 50,
+              child: FloatingActionButton.extended(
+                onPressed: () {
+                  return playFromURL(playlist[1]);
+                },
+                label: Text('Play'),
+              ),
+            ),
+            Expanded(child: SliderClass(2, 10.0, 5.0, playlist)),
           ],
         ));
   }
 
   ReorderableListView reorderablePlaylist(List<String> playlist) {
+    int index = 0;
     return ReorderableListView(
         children: <Widget>[
           if (playlist != null)
             for (var i in playlist)
               ListTile(
+                leading: CircleAvatar(
+                  backgroundColor: Colors.blueAccent,
+                  child: Text(
+                    '${index += 1}',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
                 trailing: Icon(Icons.drag_handle),
                 key: ValueKey(i),
                 title: Text(i),
@@ -55,6 +76,9 @@ class _Playlist extends State<Playlist> {
             }
             final String item = playlist.removeAt(oldIndex);
             playlist.insert(newIndex, item);
+            for (var i in playlist) {
+              print(i);
+            }
           });
         });
   }

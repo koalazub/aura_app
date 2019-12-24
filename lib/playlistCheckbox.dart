@@ -44,12 +44,13 @@ class _Checkbox extends State<Checkbox> {
     final songTitle = record.title;
     final checkedCounter = Provider.of<CheckedItemsCounter>(context);
     return Container(
-      color: Colors.red,
+      color: Colors.deepOrange,
       child: CheckboxListTile(
-          checkColor: Colors.orange,
+          checkColor: Colors.blueAccent,
           title: Text(songTitle),
           subtitle: Text(
-            record.mood,
+            record.genre,
+            style: TextStyle(fontSize: 18),
             textScaleFactor: 0.75,
           ),
           value: hasTicked,
@@ -112,7 +113,10 @@ class CheckedItemsCounter extends ChangeNotifier {
       );
     else {
       return Visibility(
-          visible: false, child: FloatingActionButton(onPressed: () {}));
+          visible: false,
+          child: FloatingActionButton(
+            onPressed: () {},
+          ));
     }
   }
 }
@@ -140,11 +144,11 @@ class _PlayableList extends State<PlayableList> {
       child: ListTile(
           title: Text(record.title),
           trailing: Text(record.genre),
-          onTap: () => pressedURL = getURL(record.title).toString()),
+          onTap: () => pressedURL = playFromURL(record.title).toString()),
       onPressed: () {
-        PlayMusic.playingSongName = record.title;
-        PlayMusic.playStream(pressedURL);
-        PlayMusic.getSongName();
+        setState(() {
+          PlayMusic.playingSongName = record.title;
+        });
       },
     );
   }

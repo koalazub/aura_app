@@ -24,6 +24,7 @@ class MusicLibraryManager extends StatefulWidget {
 class _MusicLibraryManager extends State<MusicLibraryManager> {
   bool isPlaying = false;
   static List<String> playlistSongs = List<String>();
+
   @override
   //called on init
   void initState() => super.initState();
@@ -34,6 +35,8 @@ class _MusicLibraryManager extends State<MusicLibraryManager> {
 }
 
 class PlayMusic extends State<MusicLibraryManager> {
+  static bool printDuration = true;
+
   factory PlayMusic() => _playMusicInstance;
 
   static final AudioCache audioCache = AudioCache();
@@ -76,6 +79,10 @@ class PlayMusic extends State<MusicLibraryManager> {
   }
 
   static String getSongName() => playingSongName;
+
+  static void pauseMusic() => audioPlayer.pause();
+
+  static storeDuration() async => await audioPlayer.getCurrentPosition();
 }
 
 class PopulateSongLibrary extends StatefulWidget {
@@ -88,16 +95,14 @@ class PopulateSongLibrary extends StatefulWidget {
 }
 
 class _PopulateSongLibrary extends State<PopulateSongLibrary> {
-  Color genreColor = Colors.lightBlueAccent;
   bool isChecked;
+  Key globalKey;
 
   _PopulateSongLibrary(isBoxed) {
     isChecked = isBoxed;
   }
 
-  Key globalKey;
 
-  bool hasPressed;
 
   @override
   Widget build(BuildContext context) => _buildBody(context);
@@ -112,7 +117,7 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
               child: Padding(
                 padding: const EdgeInsets.all(50.0),
                 child: CircularProgressIndicator(
-                  backgroundColor: Colors.orangeAccent,
+                  backgroundColor: Colors.blueAccent,
                 ),
               ),
             );
@@ -129,64 +134,31 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
         snapshot.map((data) => _buildListItem(context, data)).toList());
   }
 
-  var pressedURL;
-
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
     final record = Record.fromSnapshot(data);
     final list = Provider.of<PlaylistCheckbox>(context);
     return Padding(
-      key: ValueKey(record.title),
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
-      child: Column(
-        children: <Widget>[
-          ListView.builder(
-            itemBuilder: (context, index) {
-              return Center(
-                //Heading
-                child: Text(
-                  'I is le Genre',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                  ),
-                  maxLines: 1,
-                  overflow: TextOverflow.fade,
-                ),
-              );
-            },
-            itemCount: 1,
-            physics: ClampingScrollPhysics(),
-            shrinkWrap: true,
-          ),
-          StreamBuilder<QuerySnapshot>(
+        key: ValueKey(record.title),
+        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
+        child: Container(
+          child: StreamBuilder<QuerySnapshot>(
               stream: Firestore.instance.collection('Soundscapes').snapshots(),
               builder: (context, snapshot) {
                 return list.togglePlaylistState(data, context);
               }),
-        ],
-      ),
-    );
-  }
-
-  //if playlist button is tapped = change state
-  ListTile playListTileState(DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
-    return ListTile(
-        title: Text(record.title),
-        trailing: Text(record.genre),
-        onTap: () => pressedURL = getURL(record.title + '.mp3'));
+        ));
   }
 }
 
-//TODO button needs to take in string song name from database, search through Storage and return URL based on string argument
-getURL(String songName) async {
+String concatenateFileExtension(String song, String extension) =>
+    song + extension;
+
+playFromURL(String songName) async {
   String fileExt = '.mp3';
-  String folderDir = 'Demo/' + songName + fileExt;
+  String folderDir = 'Demo/' + concatenateFileExtension(songName, fileExt);
   StorageReference songRef = FirebaseStorage.instance.ref().child(folderDir);
   try {
     String url = (await songRef.getDownloadURL()).toString();
-    print('getting file ' +  folderDir);
-    print('Song URL is $url');
     PlayMusic.playStream(url);
     PlayMusic.playingSongName = songName;
   } catch (e) {
@@ -200,7 +172,6 @@ class Record {
   final String genre;
   final String mood;
   final DocumentReference reference;
-  final String warning = 'Error with matching db field';
 
   Record.fromMap(Map<String, dynamic> map, {this.reference})
       : assert(map['genre'] != null),

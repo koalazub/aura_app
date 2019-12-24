@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'MusicLibraryManager.dart';
-import 'Slider.dart';
 
 class MusicPlayer extends StatefulWidget {
   MusicPlayer();
@@ -91,7 +90,7 @@ class _MusicPlayer extends State<MusicPlayer> {
                       iconDefaultSize, null),
                 ],
               ),
-              SliderClass(2, 3.0, 3.0),
+//              SliderClass(2, 3.0, 3.0),
               Expanded(child: PopulateSongLibrary(playlistSelected)),
               checkedCounter.checkboxFloatingAction(context)
             ],
@@ -122,7 +121,8 @@ class _MusicPlayer extends State<MusicPlayer> {
         child: FlatButton(
           onPressed: () {
             setState(() {
-              getURL('bensound-allthat');
+              //TODO get song name
+              //TODO toggle when songTile is pressed and song is playing
               toggleIsPlaying();
             });
           },
