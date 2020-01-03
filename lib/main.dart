@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
           accentColor: Colors.blueAccent,
         ),
         home: SplashScreen(),
+
       ),
     );
   }

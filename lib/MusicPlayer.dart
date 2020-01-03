@@ -44,6 +44,11 @@ class _MusicPlayer extends State<MusicPlayer> {
       child: Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
+          leading: IconButton(
+            enableFeedback: true,
+            icon: Icon(Icons.sort),
+            onPressed: () => null,
+          ),
           title: Text("Music Library"),
           backgroundColor: Colors.orange,
           centerTitle: true,
@@ -58,6 +63,10 @@ class _MusicPlayer extends State<MusicPlayer> {
                   setState(() {
                     list.togglePlaylistMenu();
                     checkedCounter.flushPlaylist();
+                    checkedCounter.inPlaylistMode
+                        ? checkedCounter.inPlaylistMode = false
+                        : checkedCounter.inPlaylistMode = true;
+                    print(checkedCounter.inPlaylistMode);
                   });
                 })
           ],

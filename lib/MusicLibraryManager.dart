@@ -154,15 +154,15 @@ String concatenateFileExtension(String song, String extension) =>
     song + extension;
 
 playFromURL(String songName) async {
-  String fileExt = '.mp3';
-  String folderDir = 'Demo/' + concatenateFileExtension(songName, fileExt);
+  List<String> fileExt = ['.wav'];
+  String folderDir = 'Demo/' + concatenateFileExtension(songName, fileExt[0]);
+  print(folderDir);
   StorageReference songRef = FirebaseStorage.instance.ref().child(folderDir);
   try {
     String url = (await songRef.getDownloadURL()).toString();
     PlayMusic.playStream(url);
     PlayMusic.playingSongName = songName;
   } catch (e) {
-    print("song url wasn't captured");
     return print('failed to get url');
   }
 }

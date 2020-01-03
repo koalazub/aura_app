@@ -39,10 +39,10 @@ class _Playlist extends State<Playlist> with SingleTickerProviderStateMixin {
             Container(
               height: 50,
               child: FloatingActionButton.extended(
+                label: Text('Play'),
                 onPressed: () {
                   return playFromURL(playlist[1]);
                 },
-                label: Text('Play'),
               ),
             ),
             Expanded(child: SliderClass(2, 10.0, 5.0, playlist)),

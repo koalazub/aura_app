@@ -66,26 +66,21 @@ class _Checkbox extends State<Checkbox> {
   }
 }
 
-class CheckedItemsCounter extends ChangeNotifier {
+class CheckedItemsCounter with ChangeNotifier {
   List<String> checkedItem = List<String>();
   bool isCheckboxFloat = false;
 
   void addCheckedItemToList(String checkedSong) {
     checkedItem.add(checkedSong);
-    print(checkedItem.first + ' has been added');
-    for (var s in checkedItem) {
-      print('All songs in playlist are ' + s);
-    }
 
     print(checkedItem.length);
-    if (checkedItem.length > 2) {
+    if (checkedItem.length > 0) {
       isCheckboxFloat = true;
     }
     notifyListeners();
   }
 
   void removeCheckedItemFromList(String checkedSong) {
-    print(checkedItem.removeLast() + ' has been reoved');
     checkedItem.remove(checkedSong);
     print(checkedItem.length);
     if (checkedItem.length < 3) {
@@ -95,12 +90,13 @@ class CheckedItemsCounter extends ChangeNotifier {
   }
 
   void flushPlaylist() => checkedItem.clear();
-
+  bool inPlaylistMode = false;
   Visibility checkboxFloatingAction(BuildContext context) {
+    final activePlayButton = Provider.of<CheckedItemsCounter>(context);
     List<String> storedList = checkedItem;
     if (isCheckboxFloat)
       return Visibility(
-        visible: true,
+        visible: activePlayButton.inPlaylistMode,
         child: FloatingActionButton(
           backgroundColor: Colors.purple,
           onPressed: () {
@@ -113,9 +109,12 @@ class CheckedItemsCounter extends ChangeNotifier {
       );
     else {
       return Visibility(
-          visible: false,
+          visible: activePlayButton.inPlaylistMode,
           child: FloatingActionButton(
-            onPressed: () {},
+            child: Text("Play"),
+            onPressed: () {
+              return playFromURL(checkedItem[1]);
+            },
           ));
     }
   }
