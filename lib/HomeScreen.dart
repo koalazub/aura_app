@@ -1,4 +1,4 @@
-import 'package:aura_app/MusicPlayer.dart';
+import 'package:aura_app/musicLibrary.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class HomeScreen extends StatelessWidget {
       body: ListView(
         children: <Widget>[
           soundScapeTile(
-              'soundScapeTitle', 'soundScapeSubtitle', context, MusicPlayer())
+              'soundScapeTitle', 'soundScapeSubtitle', context, MusicLibrary())
         ],
       ),
     );

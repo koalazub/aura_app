@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:aura_app/HomeScreen.dart';
+import 'package:aura_app/musicLibrary.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -25,7 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   onDoneLoading() async {
     Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => HomeScreen()));
+        .push(MaterialPageRoute(builder: (context) => MusicLibrary()));
   }
 
   @override

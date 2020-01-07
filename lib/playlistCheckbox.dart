@@ -68,14 +68,14 @@ class _Checkbox extends State<Checkbox> {
 
 class CheckedItemsCounter with ChangeNotifier {
   List<String> checkedItem = List<String>();
-  bool isCheckboxFloat = false;
+  bool isCheckboxVisible = true;
 
   void addCheckedItemToList(String checkedSong) {
     checkedItem.add(checkedSong);
 
     print(checkedItem.length);
     if (checkedItem.length > 0) {
-      isCheckboxFloat = true;
+      isCheckboxVisible = true;
     }
     notifyListeners();
   }
@@ -84,17 +84,19 @@ class CheckedItemsCounter with ChangeNotifier {
     checkedItem.remove(checkedSong);
     print(checkedItem.length);
     if (checkedItem.length < 3) {
-      isCheckboxFloat = false;
+      isCheckboxVisible = true;
     }
     notifyListeners();
   }
 
+  //TODO function deprecated - untangle and remo ve
   void flushPlaylist() => checkedItem.clear();
   bool inPlaylistMode = false;
+
   Visibility checkboxFloatingAction(BuildContext context) {
     final activePlayButton = Provider.of<CheckedItemsCounter>(context);
     List<String> storedList = checkedItem;
-    if (isCheckboxFloat)
+    if (isCheckboxVisible)
       return Visibility(
         visible: activePlayButton.inPlaylistMode,
         child: FloatingActionButton(

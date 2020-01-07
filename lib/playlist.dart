@@ -1,5 +1,6 @@
 import 'package:aura_app/MusicLibraryManager.dart';
 import 'package:aura_app/Slider.dart';
+import 'package:aura_app/musicPlayerHUD.dart';
 import 'package:flutter/material.dart';
 
 class Playlist extends StatefulWidget {
@@ -21,6 +22,7 @@ class _Playlist extends State<Playlist> with SingleTickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
+    final MusicPlayerHUD musicPlayerHUD = MusicPlayerHUD(context);
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
@@ -46,6 +48,7 @@ class _Playlist extends State<Playlist> with SingleTickerProviderStateMixin {
               ),
             ),
             Expanded(child: SliderClass(2, 10.0, 5.0, playlist)),
+            musicPlayerHUD
           ],
         ));
   }
