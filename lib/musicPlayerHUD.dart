@@ -108,9 +108,9 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
         child: FlatButton(
           onPressed: () {
             setState(() {
-              flipAnimation();
               toggleIsAnimated();
               toggleIsPlaying();
+              flipAnimation();
             });
           },
           child: AnimatedIcon(
