@@ -29,25 +29,25 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
 
   Color backgroundColor = Colors.black;
 
-  double iconDefaultSize = 54;
+  static double iconDefaultSize = 54;
 
   double playIconSize = 54.0;
-  AnimationController animationController;
+  AnimationController playAnimationController;
 
   @override
   void initState() {
     super.initState();
-    animationController = new AnimationController(
+    playAnimationController = new AnimationController(
         duration: new Duration(milliseconds: 300), vsync: this);
 
-    animationController.addListener(() {
+    playAnimationController.addListener(() {
       this.setState(() {});
     });
   }
 
   void dispose() {
     super.dispose();
-    animationController?.dispose();
+    playAnimationController?.dispose();
   }
 
   @override
@@ -58,7 +58,8 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
 
   AnimatedIconData animatedIconData = AnimatedIcons.add_event;
 
-  AnimatedHudIcon animatedHudIcon = AnimatedHudIcon(AnimatedIcons.add_event);
+  AnimatedHudIcon animatedHudIcon =
+  AnimatedHudIcon(AnimatedIcons.add_event, iconDefaultSize);
   bool isAnimated = false;
 
   Container musicHUD(
@@ -114,7 +115,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
           },
           child: AnimatedIcon(
             icon: AnimatedIcons.pause_play,
-            progress: animationController,
+            progress: playAnimationController,
             size: playIconSize,
             color: defaultIconColor,
           ),
@@ -124,8 +125,8 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
   }
 
   void flipAnimation() => isAnimated
-      ? animationController.forward()
-      : animationController.reverse();
+      ? playAnimationController.forward()
+      : playAnimationController.reverse();
 
   void toggleIsAnimated() => isAnimated = !isAnimated;
 
@@ -142,6 +143,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
 
   void toggleIsPlaying() => isPlay ? isPlay = false : isPlay = true;
 
+  ///Update song label for now playing HUD
   Text songLabel(String songTitle) {
     try {
       return Text(
@@ -155,6 +157,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
     }
   }
 
+  ///Use for quick button setup with abstract function input
   Expanded defaultPlaybackIcon(
           IconData icon, Color defaultIconColor, double iconSize, function) =>
       Expanded(
@@ -176,6 +179,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
         ),
       );
 
+  ///Used to notify user of function invocation
   Color updatePlayColor(bool isPlay, Color someColor) {
     isPlay ? someColor = Colors.blueAccent : someColor = Colors.orangeAccent;
     return someColor;

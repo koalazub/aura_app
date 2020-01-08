@@ -82,6 +82,15 @@ class PlayMusic extends State<MusicLibraryManager> {
 
   static void pauseMusic() => audioPlayer.pause();
 
+  static void skipBackMusic() =>
+      audioPlayer
+          .seek(
+          new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0));
+
+  static void resumeMusic() => audioPlayer.resume();
+
+  static void skipMusic(String song) =>
+      audioPlayer.setUrl(song, respectSilence: true);
   static storeDuration() async => await audioPlayer.getCurrentPosition();
 }
 
@@ -101,8 +110,6 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
   _PopulateSongLibrary(isBoxed) {
     isChecked = isBoxed;
   }
-
-
 
   @override
   Widget build(BuildContext context) => _buildBody(context);

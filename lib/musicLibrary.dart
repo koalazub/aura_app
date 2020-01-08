@@ -14,8 +14,13 @@ class MusicLibrary extends StatefulWidget {
   State<StatefulWidget> createState() => _MusicLibrary();
 }
 
-class _MusicLibrary extends State<MusicLibrary> {
-  void initState() => super.initState();
+class _MusicLibrary extends State<MusicLibrary>
+    with SingleTickerProviderStateMixin {
+  void initState() {
+    super.initState();
+    animation = new AnimationController(vsync: this, duration: duration);
+    animation.addListener(() => this.setState(() {}));
+  }
 
   @protected
   @mustCallSuper
@@ -31,8 +36,15 @@ class _MusicLibrary extends State<MusicLibrary> {
 
   static bool isPlay = false;
   static bool isPlaylist = false;
+
   Duration beginning = Duration.zero;
   bool playlistSelected = false;
+
+  //Animation region
+  AnimatedIconData playlistAnimatedIcon = AnimatedIcons.menu_close;
+  AnimationController animation;
+  Duration duration = Duration(milliseconds: 250);
+  bool flipAnimation = false;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +58,12 @@ class _MusicLibrary extends State<MusicLibrary> {
         appBar: AppBar(
           leading: IconButton(
             enableFeedback: true,
-            icon: Icon(Icons.sort),
+            autofocus: true,
+            icon: AnimatedIcon(
+              progress: animation,
+              icon: playlistAnimatedIcon,
+              size: 20,
+            ),
             onPressed: () {
               setState(() {
                 list.togglePlaylistMenu();
@@ -55,10 +72,11 @@ class _MusicLibrary extends State<MusicLibrary> {
                     ? checkedCounter.inPlaylistMode = false
                     : checkedCounter.inPlaylistMode = true;
                 print(checkedCounter.inPlaylistMode);
+                flipAnimation ? animation.reverse() : animation.forward();
+                flipAnimation = !flipAnimation;
               });
             },
           ),
-          title: Text("Music Library"),
           backgroundColor: Colors.orange,
           centerTitle: true,
           actions: <Widget>[
@@ -81,7 +99,6 @@ class _MusicLibrary extends State<MusicLibrary> {
             child: Column(
           children: <Widget>[
             Expanded(child: PopulateSongLibrary(playlistSelected)),
-            checkedCounter.checkboxFloatingAction(context)
           ],
         )),
       ),

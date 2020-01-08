@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 
 class AnimatedHudIcon extends StatefulWidget {
   final AnimatedIconData animatedIconData;
+  final double iconSize;
 
-  AnimatedHudIcon(this.animatedIconData);
+  AnimatedHudIcon(this.animatedIconData, this.iconSize);
 
   @override
   State<StatefulWidget> createState() =>
-      _AnimatedHudIcon(this.animatedIconData);
+      _AnimatedHudIcon(this.animatedIconData, this.iconSize);
 }
 
 class _AnimatedHudIcon extends State<AnimatedHudIcon>
     with SingleTickerProviderStateMixin {
   AnimationController animation;
   Duration duration = Duration(milliseconds: 500);
+  var iconSize;
 
-  _AnimatedHudIcon(AnimatedIconData animatedIconData);
+  _AnimatedHudIcon(AnimatedIconData animatedIconData, this.iconSize);
 
   bool flipAnim = false;
 
@@ -37,6 +39,8 @@ class _AnimatedHudIcon extends State<AnimatedHudIcon>
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      enableFeedback: true,
+      excludeFromSemantics: true,
       onTap: () {
         flipAnim ? animation.forward() : animation.reverse();
 
@@ -45,7 +49,7 @@ class _AnimatedHudIcon extends State<AnimatedHudIcon>
       child: AnimatedIcon(
         icon: super.widget.animatedIconData,
         progress: animation,
-        size: 54,
+        size: iconSize,
       ),
     );
   }

@@ -90,15 +90,15 @@ class _SliderClass extends State<SliderClass> {
     PlayMusic.audioPlayer.pause();
 
     if (sliderValue < 1) {
-      playFromURL(songPlaylist[0]);
+      playFromURL(songPlaylist[0] + ' [A]');
       //TODO check if audioplayer is playing, then store duration
-      print('call play function for Resolve!');
+      print('call play function for A!');
     } else if (sliderValue > 6) {
-      playFromURL(songPlaylist[1]);
-      print('call play function for Resolve!');
+      playFromURL(songPlaylist[0] + ' [O]');
+      print('call play function for O!');
     } else if (sliderValue == 5) {
-      playFromURL(songPlaylist[2]);
-      print('call play function for Resolve!');
+      playFromURL(songPlaylist[0] + ' [B]');
+      print('call play function for B!');
     }
   }
 

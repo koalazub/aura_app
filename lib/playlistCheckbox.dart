@@ -1,5 +1,4 @@
 import 'package:aura_app/MusicLibraryManager.dart';
-import 'package:aura_app/playlist.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -72,54 +71,19 @@ class CheckedItemsCounter with ChangeNotifier {
 
   void addCheckedItemToList(String checkedSong) {
     checkedItem.add(checkedSong);
-
     print(checkedItem.length);
-    if (checkedItem.length > 0) {
-      isCheckboxVisible = true;
-    }
     notifyListeners();
   }
 
   void removeCheckedItemFromList(String checkedSong) {
     checkedItem.remove(checkedSong);
     print(checkedItem.length);
-    if (checkedItem.length < 3) {
-      isCheckboxVisible = true;
-    }
     notifyListeners();
   }
 
   //TODO function deprecated - untangle and remo ve
   void flushPlaylist() => checkedItem.clear();
   bool inPlaylistMode = false;
-
-  Visibility checkboxFloatingAction(BuildContext context) {
-    final activePlayButton = Provider.of<CheckedItemsCounter>(context);
-    List<String> storedList = checkedItem;
-    if (isCheckboxVisible)
-      return Visibility(
-        visible: activePlayButton.inPlaylistMode,
-        child: FloatingActionButton(
-          backgroundColor: Colors.purple,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => Playlist(playlist: storedList)));
-          },
-        ),
-      );
-    else {
-      return Visibility(
-          visible: activePlayButton.inPlaylistMode,
-          child: FloatingActionButton(
-            child: Text("Play"),
-            onPressed: () {
-              return playFromURL(checkedItem[1]);
-            },
-          ));
-    }
-  }
 }
 
 class PlayableList extends StatefulWidget {
