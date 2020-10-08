@@ -8,8 +8,6 @@ import 'MusicLibraryManager.dart';
 class MusicLibrary extends StatefulWidget {
   MusicLibrary();
 
-  MusicLibrary._internal();
-
   @override
   State<StatefulWidget> createState() => _MusicLibrary();
 }
@@ -18,7 +16,7 @@ class _MusicLibrary extends State<MusicLibrary>
     with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
-    animation = new AnimationController(vsync: this, duration: duration);
+    animation = new AnimationController(duration: duration);
     animation.addListener(() => this.setState(() {}));
   }
 
