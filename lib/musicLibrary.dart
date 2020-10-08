@@ -20,6 +20,7 @@ class _MusicLibrary extends State<MusicLibrary>
     animation.addListener(() => this.setState(() {}));
   }
 
+
   @protected
   @mustCallSuper
   double iconDefaultSize = 50.0;
