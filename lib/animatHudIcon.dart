@@ -27,7 +27,7 @@ class _AnimatedHudIcon extends State<AnimatedHudIcon>
   @override
   void initState() {
     super.initState();
-    animation = new AnimationController(duration: duration);
+    animation = new AnimationController(duration: duration, vsync: this);
     animation.addListener(() => this.setState(() {}));
   }
 

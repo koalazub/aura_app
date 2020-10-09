@@ -1,11 +1,16 @@
 import 'package:aura_app/MusicLibraryManager.dart';
 import 'package:aura_app/playlistCheckbox.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'SplashScreen.dart';
 
-void main() => runApp(MyApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   final String shortDescript =

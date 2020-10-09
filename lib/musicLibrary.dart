@@ -16,7 +16,7 @@ class _MusicLibrary extends State<MusicLibrary>
     with SingleTickerProviderStateMixin {
   void initState() {
     super.initState();
-    animation = new AnimationController(duration: duration);
+    animation = new AnimationController(duration: duration, vsync: this);
     animation.addListener(() => this.setState(() {}));
   }
 
@@ -85,21 +85,23 @@ class _MusicLibrary extends State<MusicLibrary>
                 Icons.playlist_add,
                 color: defaultIconColour,
               ),
-              onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => Playlist(
-                            playlist: checkedCounter.checkedItem,
-                          ))),
+              onPressed: () =>
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              Playlist(
+                                playlist: checkedCounter.checkedItem,
+                              ))),
             )
           ],
         ),
         body: Container(
             child: Column(
-          children: <Widget>[
-            Expanded(child: PopulateSongLibrary(playlistSelected)),
-          ],
-        )),
+              children: <Widget>[
+                Expanded(child: PopulateSongLibrary(playlistSelected)),
+              ],
+            )),
       ),
     );
   }

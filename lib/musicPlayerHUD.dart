@@ -38,7 +38,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
   void initState() {
     super.initState();
     playAnimationController = new AnimationController(
-        duration: new Duration(milliseconds: 300));
+        duration: new Duration(milliseconds: 300), vsync: this);
 
     playAnimationController.addListener(() {
       this.setState(() {});

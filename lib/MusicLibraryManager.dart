@@ -117,7 +117,8 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
   Widget _buildBody(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         key: globalKey,
-        stream: Firestore.instance.collection('Soundscapes').snapshots(),
+        stream:
+            FirebaseFirestore.instance.collection('Soundscapes').snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
@@ -189,7 +190,7 @@ class Record {
         title = map['title'];
 
   Record.fromSnapshot(DocumentSnapshot snapshot)
-      : this.fromMap(snapshot.data, reference: snapshot.reference);
+      : this.fromMap(snapshot.data(), reference: snapshot.reference);
 
   @override
   String toString() => "Record<$title:$genre>";

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>216076442278-082jgih4sg063qhsbn2ecdnr1pfe2v62.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.216076442278-082jgih4sg063qhsbn2ecdnr1pfe2v62</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCN51Pc--8hlfhyvQ7dVDtkImHidTYKDlg</string>
+	<key>GCM_SENDER_ID</key>
+	<string>216076442278</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.auraapp.eaql</string>
+	<key>PROJECT_ID</key>
+	<string>aura-dfd9a</string>
+	<key>STORAGE_BUCKET</key>
+	<string>aura-dfd9a.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:216076442278:ios:6ce5b0196a217e9b3cb267</string>
+	<key>DATABASE_URL</key>
+	<string>https://aura-dfd9a.firebaseio.com</string>
+</dict>
+</plist>
