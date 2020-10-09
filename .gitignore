@@ -40,3 +40,4 @@ lib/generated_plugin_registrant.dart
 ios/Pods
 ios/Podfile
 ios/Podfile.lock
+ios/Flutter/.last_build_id
