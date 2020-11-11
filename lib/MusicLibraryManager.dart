@@ -11,7 +11,7 @@ import 'package:provider/provider.dart';
 
 class MusicLibraryManager extends StatefulWidget {
   static final MusicLibraryManager _musicLibraryManagerInstance =
-  MusicLibraryManager._internal();
+      MusicLibraryManager._internal();
 
   factory MusicLibraryManager() => _musicLibraryManagerInstance;
 
@@ -23,7 +23,6 @@ class MusicLibraryManager extends StatefulWidget {
 
 class _MusicLibraryManager extends State<MusicLibraryManager> {
   bool isPlaying = false;
-  static List<String> playlistSongs = List<String>();
 
   @override
   //called on init
@@ -91,6 +90,7 @@ class PlayMusic extends State<MusicLibraryManager> {
 
   static void skipMusic(String song) =>
       audioPlayer.setUrl(song, respectSilence: true);
+
   static storeDuration() async => await audioPlayer.getCurrentPosition();
 }
 
@@ -130,7 +130,7 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
               ),
             );
           }
-          return _buildList(context, snapshot.data.documents);
+          return _buildList(context, snapshot.data.docs);
         });
   }
 
@@ -150,7 +150,9 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
         padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
         child: Container(
           child: StreamBuilder<QuerySnapshot>(
-              stream: Firestore.instance.collection('Soundscapes').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('Soundscapes')
+                  .snapshots(),
               builder: (context, snapshot) {
                 return list.togglePlaylistState(data, context);
               }),
@@ -165,7 +167,7 @@ playFromURL(String songName) async {
   List<String> fileExt = ['.wav'];
   String folderDir = 'Demo/' + concatenateFileExtension(songName, fileExt[0]);
   print(folderDir);
-  StorageReference songRef = FirebaseStorage.instance.ref().child(folderDir);
+  Reference songRef = FirebaseStorage.instance.ref().child(folderDir);
   try {
     String url = (await songRef.getDownloadURL()).toString();
     PlayMusic.playStream(url);
