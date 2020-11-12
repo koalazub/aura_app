@@ -81,10 +81,8 @@ class PlayMusic extends State<MusicLibraryManager> {
 
   static void pauseMusic() => audioPlayer.pause();
 
-  static void skipBackMusic() =>
-      audioPlayer
-          .seek(
-          new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0));
+  static void skipBackMusic() => audioPlayer
+      .seek(new Duration(hours: 0, minutes: 0, seconds: 0, milliseconds: 0));
 
   static void resumeMusic() => audioPlayer.resume();
 
@@ -164,6 +162,7 @@ String concatenateFileExtension(String song, String extension) =>
     song + extension;
 
 playFromURL(String songName) async {
+  //fixme this has various issues related to looping
   List<String> fileExt = ['.wav'];
   String folderDir = 'Demo/' + concatenateFileExtension(songName, fileExt[0]);
   print(folderDir);

@@ -20,7 +20,6 @@ class _MusicLibrary extends State<MusicLibrary>
     animation.addListener(() => this.setState(() {}));
   }
 
-
   @protected
   @mustCallSuper
   double iconDefaultSize = 50.0;
@@ -30,11 +29,6 @@ class _MusicLibrary extends State<MusicLibrary>
   Color defaultIconColour = Colors.white;
   Color backgroundColor = Colors.lightBlue;
   Color nowPlayingColor = Colors.orangeAccent;
-
-  static IconData playArrow = Icons.play_arrow;
-
-  static bool isPlay = false;
-  static bool isPlaylist = false;
 
   Duration beginning = Duration.zero;
   bool playlistSelected = false;
@@ -85,23 +79,21 @@ class _MusicLibrary extends State<MusicLibrary>
                 Icons.playlist_add,
                 color: defaultIconColour,
               ),
-              onPressed: () =>
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) =>
-                              Playlist(
-                                playlist: checkedCounter.checkedItem,
-                              ))),
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Playlist(
+                            playlist: checkedCounter.checkedItem,
+                          ))),
             )
           ],
         ),
         body: Container(
             child: Column(
-              children: <Widget>[
-                Expanded(child: PopulateSongLibrary(playlistSelected)),
-              ],
-            )),
+          children: <Widget>[
+            Expanded(child: PopulateSongLibrary(playlistSelected)),
+          ],
+        )),
       ),
     );
   }

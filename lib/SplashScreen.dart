@@ -11,8 +11,6 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String splashImg = 'android/assets/PlaHolderTutorial.png';
-
   @override
   void initState() {
     super.initState();
