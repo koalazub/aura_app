@@ -7,14 +7,15 @@ class SliderClass extends StatefulWidget {
   final double slideValue;
   final List<String> playlist;
 
-  SliderClass(this.sliderDivisions,
-      this.maxSlideValue,
-      this.slideValue,
-      this.playlist,);
+  SliderClass(
+    this.sliderDivisions,
+    this.maxSlideValue,
+    this.slideValue,
+    this.playlist,
+  );
 
   @override
-  State<StatefulWidget> createState() =>
-      _SliderClass(
+  State<StatefulWidget> createState() => _SliderClass(
         sliderDivisions,
         maxSlideValue,
         slideValue,
@@ -90,14 +91,14 @@ class _SliderClass extends State<SliderClass> {
     PlayMusic.audioPlayer.pause();
 
     if (sliderValue < 1) {
-      playFromURL(songPlaylist[0] + ' [A]');
+      playUrlFromStorage(songPlaylist[0] + ' [A]');
       //TODO check if audioplayer is playing, then store duration
       print('call play function for A!');
     } else if (sliderValue > 6) {
-      playFromURL(songPlaylist[0] + ' [O]');
+      playUrlFromStorage(songPlaylist[0] + ' [O]');
       print('call play function for O!');
     } else if (sliderValue == 5) {
-      playFromURL(songPlaylist[0] + ' [B]');
+      playUrlFromStorage(songPlaylist[0] + ' [B]');
       print('call play function for B!');
     }
   }
@@ -130,8 +131,8 @@ class _SliderClass extends State<SliderClass> {
     return sliderVal;
   }
 
-
-  void sliderActions(Color inActiveColor, Color activeColor, String sliderBalloon) {
+  void sliderActions(Color inActiveColor, Color activeColor,
+      String sliderBalloon) {
     inactiveSliderColor = inActiveColor;
     activeSliderColor = activeColor;
     labelBalloon = sliderBalloon;

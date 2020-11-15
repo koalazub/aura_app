@@ -93,38 +93,40 @@ class PlayMusic extends State<MusicLibraryManager> {
 }
 
 class PopulateSongLibrary extends StatefulWidget {
-  final bool _isChecked;
+  bool isChecked;
+  final String collectionSchema;
 
-  PopulateSongLibrary(this._isChecked);
+  PopulateSongLibrary(this.collectionSchema, {this.isChecked = false});
 
   @override
-  State<StatefulWidget> createState() => _PopulateSongLibrary(this._isChecked);
+  State<StatefulWidget> createState() =>
+      _PopulateSongLibrary(this.isChecked, this.collectionSchema);
 }
 
 class _PopulateSongLibrary extends State<PopulateSongLibrary> {
   bool isChecked;
   Key globalKey;
+  String schemaCollection;
 
-  _PopulateSongLibrary(isBoxed) {
+  _PopulateSongLibrary(isBoxed, collection) {
     isChecked = isBoxed;
+    schemaCollection = collection;
   }
 
   @override
   Widget build(BuildContext context) => _buildBody(context);
 
   Widget _buildBody(BuildContext context) {
+    var soundscapes =
+        FirebaseFirestore.instance.collection(schemaCollection).snapshots();
     return StreamBuilder<QuerySnapshot>(
         key: globalKey,
-        stream:
-            FirebaseFirestore.instance.collection('Soundscapes').snapshots(),
+        stream: soundscapes,
         builder: (context, snapshot) {
           if (!snapshot.hasData) {
             return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(50.0),
-                child: CircularProgressIndicator(
-                  backgroundColor: Colors.blueAccent,
-                ),
+              child: CircularProgressIndicator(
+                backgroundColor: Colors.white,
               ),
             );
           }
@@ -140,34 +142,34 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
         snapshot.map((data) => _buildListItem(context, data)).toList());
   }
 
+  int counter = 0;
+
   Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    final record = Record.fromSnapshot(data);
+    counter++;
     final list = Provider.of<PlaylistCheckbox>(context);
-    return Padding(
-        key: ValueKey(record.title),
-        padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 2.0),
-        child: Container(
-          child: StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance
-                  .collection('Soundscapes')
-                  .snapshots(),
-              builder: (context, snapshot) {
-                return list.togglePlaylistState(data, context);
-              }),
-        ));
+    return Container(
+      padding: EdgeInsets.only(top: 5.0),
+      child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection(schemaCollection)
+              .snapshots(),
+          builder: (context, snapshot) => list.listFromSnapshot(data, context)),
+    );
   }
 }
 
 String concatenateFileExtension(String song, String extension) =>
     song + extension;
 
-playFromURL(String songName) async {
+playUrlFromStorage(String songName) async {
   //fixme this has various issues related to looping
   List<String> fileExt = ['.wav'];
   String folderDir = 'Demo/' + concatenateFileExtension(songName, fileExt[0]);
   print(folderDir);
   Reference songRef = FirebaseStorage.instance.ref().child(folderDir);
   try {
+    //fixme url currently not fetching due to database not being present. We
+    // should attach local directory files from assets first to see that it's functional before proceeding
     String url = (await songRef.getDownloadURL()).toString();
     PlayMusic.playStream(url);
     PlayMusic.playingSongName = songName;

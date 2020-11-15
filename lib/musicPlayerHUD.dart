@@ -59,7 +59,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
   AnimatedIconData animatedIconData = AnimatedIcons.add_event;
 
   AnimatedHudIcon animatedHudIcon =
-  AnimatedHudIcon(AnimatedIcons.add_event, iconDefaultSize);
+      AnimatedHudIcon(AnimatedIcons.add_event, iconDefaultSize);
   bool isAnimated = false;
 
   Container musicHUD(
@@ -67,7 +67,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
     Duration beginning = new Duration(milliseconds: 0);
     return Container(
       alignment: Alignment.center,
-      color: Colors.blueGrey,
+      color: Colors.white,
       child: Card(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -181,7 +181,7 @@ class _MusicPlayerHUD extends State<MusicPlayerHUD>
 
   ///Used to notify user of function invocation
   Color updatePlayColor(bool isPlay, Color someColor) {
-    isPlay ? someColor = Colors.blueAccent : someColor = Colors.orangeAccent;
+    isPlay ? someColor = Colors.blue : someColor = Colors.orangeAccent;
     return someColor;
   }
 }

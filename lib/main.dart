@@ -1,4 +1,5 @@
 import 'package:aura_app/MusicLibraryManager.dart';
+import 'package:aura_app/lighttheme.dart';
 import 'package:aura_app/playlistCheckbox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -39,11 +40,17 @@ class MyApp extends StatelessWidget {
         )
       ],
       child: MaterialApp(
+        //koala - Implement conditional that checks whether light or dark mode is invoked based on system setting
+
         theme: ThemeData(
-          primarySwatch: Colors.deepOrange,
-          brightness: Brightness.dark,
-          accentColor: Colors.blueAccent,
-        ),
+            primarySwatch: Colors.purple,
+            brightness: Brightness.dark,
+            accentColor: Colors.white,
+            appBarTheme:
+                //koala - implement new LightAppTheme over here
+                AppBarTheme(
+              textTheme: TextTheme(headline5: AppBarText),
+            )),
         home: SplashScreen(),
       ),
     );

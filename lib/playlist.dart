@@ -1,4 +1,5 @@
 import 'package:aura_app/Slider.dart';
+import 'package:aura_app/lighttheme.dart';
 import 'package:aura_app/musicPlayerHUD.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,10 @@ class _Playlist extends State<Playlist> with SingleTickerProviderStateMixin {
     return Scaffold(
         backgroundColor: Colors.black,
         appBar: AppBar(
-          title: Text('Playlist'),
+          title: Text(
+            'Playlist',
+            style: AppBarText,
+          ),
           centerTitle: true,
         ),
         body: Column(
@@ -54,7 +58,7 @@ class _Playlist extends State<Playlist> with SingleTickerProviderStateMixin {
             for (var i in playlist)
               ListTile(
                 leading: CircleAvatar(
-                  backgroundColor: Colors.blueAccent,
+                  backgroundColor: Colors.white,
                   child: Text(
                     '${index += 1}',
                     style: TextStyle(color: Colors.white),

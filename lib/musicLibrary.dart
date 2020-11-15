@@ -1,3 +1,4 @@
+import 'package:aura_app/lighttheme.dart';
 import 'package:aura_app/playlist.dart';
 import 'package:aura_app/playlistCheckbox.dart';
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _MusicLibrary extends State<MusicLibrary>
   double playIconSize = 64.0;
 
   Color defaultIconColour = Colors.white;
-  Color backgroundColor = Colors.lightBlue;
+  Color backgroundColor = Color(0xff193b59);
   Color nowPlayingColor = Colors.orangeAccent;
 
   Duration beginning = Duration.zero;
@@ -45,9 +46,8 @@ class _MusicLibrary extends State<MusicLibrary>
     final checkedCounter = Provider.of<CheckedItemsCounter>(context);
     MusicLibraryManager();
     return Material(
-      color: Colors.red,
       child: Scaffold(
-        backgroundColor: Colors.black,
+        backgroundColor: backgroundColor,
         appBar: AppBar(
           leading: IconButton(
             enableFeedback: true,
@@ -58,12 +58,11 @@ class _MusicLibrary extends State<MusicLibrary>
               size: 20,
             ),
             onPressed: () {
+              //koala - convert state change into provider
               setState(() {
                 list.togglePlaylistMenu();
                 checkedCounter.flushPlaylist();
-                checkedCounter.inPlaylistMode
-                    ? checkedCounter.inPlaylistMode = false
-                    : checkedCounter.inPlaylistMode = true;
+                checkedCounter.inPlaylistMode = !checkedCounter.inPlaylistMode;
                 print(checkedCounter.inPlaylistMode);
                 flipAnimation ? animation.reverse() : animation.forward();
                 flipAnimation = !flipAnimation;
@@ -89,11 +88,23 @@ class _MusicLibrary extends State<MusicLibrary>
           ],
         ),
         body: Container(
+            padding: EdgeInsets.only(top: 20),
             child: Column(
-          children: <Widget>[
-            Expanded(child: PopulateSongLibrary(playlistSelected)),
-          ],
-        )),
+              children: <Widget>[
+                createCollectionTile(
+                    title: 'Soundscapes',
+                    imageAsset: 'assets/PlaceHolderTutorial.png'),
+                Expanded(child: PopulateSongLibrary("Soundscapes")),
+                createCollectionTile(
+                    title: 'Tavern',
+                    imageAsset: 'assets/PlaceHolderTutorial.png'),
+                Expanded(child: PopulateSongLibrary("Tavern")),
+                createCollectionTile(
+                    title: 'Combat',
+                    imageAsset: 'assets/PlaceHolderTutorial.png'),
+                Expanded(child: PopulateSongLibrary("combat"))
+              ],
+            )),
       ),
     );
   }
@@ -106,13 +117,28 @@ class _MusicLibrary extends State<MusicLibrary>
         style: TextStyle(color: defaultIconColour),
       );
     } catch (e) {
-      print('Exception caught, issue with song read. ');
+      print(e);
       return Text('Song', overflow: TextOverflow.fade);
     }
   }
 
-  Color updatePlayColor(bool isPlay, Color someColor) {
-    isPlay ? someColor = Colors.blueAccent : someColor = Colors.orangeAccent;
-    return someColor;
-  }
+  //koala - if this fucks up just revert it
+  Future<Color> updatePlayColor(Future<bool> isPlay, Color someColor) async =>
+      await isPlay ? someColor = Colors.white : someColor = Colors.purple;
+}
+
+Widget createCollectionTile(
+    {@required String imageAsset, @required String title}) {
+  return ListTile(
+    title: Text(
+      title,
+      style: titleText,
+      textAlign: TextAlign.center,
+    ),
+    trailing: Image.asset(
+      imageAsset,
+      height: 50,
+      width: 50,
+    ),
+  );
 }

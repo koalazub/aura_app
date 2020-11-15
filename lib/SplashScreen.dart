@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() {
-    return _SplashScreenState();
-  }
+  State<StatefulWidget> createState() => _SplashScreenState();
 }
 
 class _SplashScreenState extends State<SplashScreen> {
@@ -32,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
       decoration: BoxDecoration(
           image: DecorationImage(
               image: AssetImage(
-                'android/assets/PlaceHolderTutorial.png',
+                'assets/PlaceHolderTutorial.png',
               ),
               fit: BoxFit.cover)),
       child: Center(

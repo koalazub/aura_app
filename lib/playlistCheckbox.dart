@@ -9,13 +9,14 @@ class PlaylistCheckbox with ChangeNotifier {
   bool checkboxItemTicked = true;
   String pressedURL;
 
-  togglePlaylistState(DocumentSnapshot data, BuildContext context) {
-    if (playlistActive) {
-      if (data != null) return Checkbox(data);
-    } else {
-      return PlayableList(data);
-    }
-  }
+  listFromSnapshot(DocumentSnapshot data, BuildContext context) =>
+      playlistActive
+          ? Checkbox(data)
+          : SongsCollection(
+              data,
+              textColor: Colors.black,
+              buttonColor: Colors.black,
+            );
 
   void togglePlaylistMenu() =>
       playlistActive ? playlistActive = false : playlistActive = true;
@@ -23,7 +24,6 @@ class PlaylistCheckbox with ChangeNotifier {
 
 class Checkbox extends StatefulWidget {
   final DocumentSnapshot data;
-
   Checkbox(this.data);
 
   State<StatefulWidget> createState() => _Checkbox(this.data);
@@ -31,21 +31,21 @@ class Checkbox extends StatefulWidget {
 
 class _Checkbox extends State<Checkbox> {
   DocumentSnapshot data;
-
-  _Checkbox(this.data);
-
   bool hasTicked = false;
   String songTitle;
+
+  _Checkbox(this.data);
 
   @override
   Widget build(BuildContext context) {
     final record = Record.fromSnapshot(data);
     final songTitle = record.title;
     final checkedCounter = Provider.of<CheckedItemsCounter>(context);
+
     return Container(
       color: Colors.deepOrange,
       child: CheckboxListTile(
-          checkColor: Colors.blueAccent,
+          checkColor: Colors.white,
           title: Text(songTitle),
           subtitle: Text(
             record.genre,
@@ -68,6 +68,7 @@ class _Checkbox extends State<Checkbox> {
 class CheckedItemsCounter with ChangeNotifier {
   List<String> checkedItem = List<String>();
   bool isCheckboxVisible = true;
+  bool inPlaylistMode = false;
 
   void addCheckedItemToList(String checkedSong) {
     checkedItem.add(checkedSong);
@@ -81,40 +82,58 @@ class CheckedItemsCounter with ChangeNotifier {
     notifyListeners();
   }
 
-  //TODO function deprecated - untangle and remo ve
   void flushPlaylist() => checkedItem.clear();
-  bool inPlaylistMode = false;
 }
 
-class PlayableList extends StatefulWidget {
+//TODO need to spearate this into another class
+class SongsCollection extends StatefulWidget {
   final DocumentSnapshot data;
+  final Color textColor;
+  final Color buttonColor;
 
-  PlayableList(this.data);
+  SongsCollection(this.data,
+      {this.textColor = Colors.white, this.buttonColor = Colors.white});
 
   @override
-  State<StatefulWidget> createState() => _PlayableList(this.data);
+  State<StatefulWidget> createState() =>
+      _SongsCollection(this.data, this.textColor, this.buttonColor);
 }
 
-class _PlayableList extends State<PlayableList> {
+class _SongsCollection extends State<SongsCollection> {
   DocumentSnapshot data;
   String pressedURL;
+  Color textColor;
+  Color buttonColor;
 
-  _PlayableList(this.data);
+  _SongsCollection(this.data, this.textColor, this.buttonColor);
+
+  bool isOdd = false;
 
   @override
   Widget build(BuildContext context) {
     final record = Record.fromSnapshot(data);
     return FlatButton(
-      color: Colors.blueAccent,
+      color: Colors.white,
+      splashColor: Colors.purple,
       child: ListTile(
-          title: Text(record.title),
-          trailing: Text(record.genre),
-          onTap: () => pressedURL = playFromURL(record.title).toString()),
+          title: Text(
+            record.title,
+            style: TextStyle(color: isOdd ? textColor : Colors.grey),
+          ),
+          trailing: Text(
+            record.genre,
+            style: TextStyle(color: textColor),
+          ),
+          onTap: () =>
+          pressedURL = playUrlFromStorage(record.title).toString()),
       onPressed: () {
+        //koala - currently using setState, but will need to transition to provider pattern
         setState(() {
           PlayMusic.playingSongName = record.title;
         });
       },
     );
   }
+
+  colorOnOddNumber(Record record) {}
 }
