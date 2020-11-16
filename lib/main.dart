@@ -1,4 +1,3 @@
-import 'package:aura_app/MusicLibraryManager.dart';
 import 'package:aura_app/lighttheme.dart';
 import 'package:aura_app/playlistCheckbox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,7 +12,7 @@ Future<void> main() async {
 
   // FirebaseFirestore.instance;
   initialiseFirebase();
-  runApp(MyApp());
+  runApp(AuraMainAPP());
 }
 
 Future<void> initialiseFirebase() async {
@@ -26,22 +25,21 @@ Future<void> initialiseFirebase() async {
   }
 }
 
-class MyApp extends StatelessWidget {
+class AuraMainAPP extends StatelessWidget {
   final String shortDescript =
       'Dungeon Maestro is an audio-atmospheric companion app to the tabletop and RPG games such as D&D';
+
   @override
   Widget build(BuildContext context) {
-    MusicLibraryManager();
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => PlaylistCheckbox()),
         ChangeNotifierProvider(
           create: (_) => CheckedItemsCounter(),
-        )
+        ),
       ],
       child: MaterialApp(
         //koala - Implement conditional that checks whether light or dark mode is invoked based on system setting
-
         theme: ThemeData(
             primarySwatch: Colors.purple,
             brightness: Brightness.dark,
@@ -52,6 +50,8 @@ class MyApp extends StatelessWidget {
               textTheme: TextTheme(headline5: AppBarText),
             )),
         home: SplashScreen(),
+        themeMode: ThemeMode.system,
+        darkTheme: ThemeData.dark(),
       ),
     );
   }

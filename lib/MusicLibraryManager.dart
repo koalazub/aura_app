@@ -1,7 +1,7 @@
 import 'dart:core';
 
-import 'package:audioplayers/audio_cache.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'package:audioplayers/audio_cache.dart' show AudioCache;
+import 'package:audioplayers/audioplayers.dart' show AudioPlayer;
 import 'package:aura_app/playlistCheckbox.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -93,7 +93,7 @@ class PlayMusic extends State<MusicLibraryManager> {
 }
 
 class PopulateSongLibrary extends StatefulWidget {
-  bool isChecked;
+  final bool isChecked;
   final String collectionSchema;
 
   PopulateSongLibrary(this.collectionSchema, {this.isChecked = false});
@@ -103,8 +103,11 @@ class PopulateSongLibrary extends StatefulWidget {
       _PopulateSongLibrary(this.isChecked, this.collectionSchema);
 }
 
+///Contains data points to alter things like gapping between buttons
+///Where the Stream is built and with what collection
 class _PopulateSongLibrary extends State<PopulateSongLibrary> {
   bool isChecked;
+  bool isOdd = false;
   Key globalKey;
   String schemaCollection;
 
@@ -130,25 +133,28 @@ class _PopulateSongLibrary extends State<PopulateSongLibrary> {
               ),
             );
           }
-          return _buildList(context, snapshot.data.docs);
+          // isOdd = !isOdd;
+          return _buildList(context, snapshot.data.docs, isOdd);
         });
   }
 
-  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot) {
+  Widget _buildList(BuildContext context, List<DocumentSnapshot> snapshot,
+      bool isOdd) {
     return ListView(
         key: globalKey,
-        padding: const EdgeInsets.only(top: 20.0),
-        children:
-        snapshot.map((data) => _buildListItem(context, data)).toList());
+        children: snapshot
+            .map((data) => _buildListItem(context, data, isOdd))
+            .toList());
   }
 
   int counter = 0;
 
-  Widget _buildListItem(BuildContext context, DocumentSnapshot data) {
-    counter++;
+  Widget _buildListItem(BuildContext context, DocumentSnapshot data,
+      bool isOdd) {
     final list = Provider.of<PlaylistCheckbox>(context);
     return Container(
-      padding: EdgeInsets.only(top: 5.0),
+      margin: EdgeInsets.only(top: 5.0),
+      color: Colors.white70,
       child: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection(schemaCollection)

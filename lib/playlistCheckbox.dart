@@ -78,14 +78,13 @@ class CheckedItemsCounter with ChangeNotifier {
 
   void removeCheckedItemFromList(String checkedSong) {
     checkedItem.remove(checkedSong);
-    print(checkedItem.length);
     notifyListeners();
   }
 
   void flushPlaylist() => checkedItem.clear();
 }
 
-//TODO need to spearate this into another class
+//TODO need to separate this into another class
 class SongsCollection extends StatefulWidget {
   final DocumentSnapshot data;
   final Color textColor;
@@ -107,33 +106,22 @@ class _SongsCollection extends State<SongsCollection> {
 
   _SongsCollection(this.data, this.textColor, this.buttonColor);
 
-  bool isOdd = false;
-
   @override
   Widget build(BuildContext context) {
     final record = Record.fromSnapshot(data);
     return FlatButton(
-      color: Colors.white,
-      splashColor: Colors.purple,
+      onPressed: () {},
       child: ListTile(
           title: Text(
             record.title,
-            style: TextStyle(color: isOdd ? textColor : Colors.grey),
+            style: TextStyle(color: textColor),
           ),
           trailing: Text(
             record.genre,
             style: TextStyle(color: textColor),
           ),
           onTap: () =>
-          pressedURL = playUrlFromStorage(record.title).toString()),
-      onPressed: () {
-        //koala - currently using setState, but will need to transition to provider pattern
-        setState(() {
-          PlayMusic.playingSongName = record.title;
-        });
-      },
+              pressedURL = playUrlFromStorage(record.title).toString()),
     );
   }
-
-  colorOnOddNumber(Record record) {}
 }

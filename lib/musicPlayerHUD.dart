@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'MusicLibraryManager.dart';
-import 'animatHudIcon.dart';
+import 'animatedHudIcon.dart';
 
 class MusicPlayerHUD extends StatefulWidget {
   final BuildContext context;

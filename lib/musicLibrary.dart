@@ -40,6 +40,8 @@ class _MusicLibrary extends State<MusicLibrary>
   Duration duration = Duration(milliseconds: 250);
   bool flipAnimation = false;
 
+  var appBarColor = LightAppBar.color;
+
   @override
   Widget build(BuildContext context) {
     final list = Provider.of<PlaylistCheckbox>(context);
@@ -49,9 +51,11 @@ class _MusicLibrary extends State<MusicLibrary>
       child: Scaffold(
         backgroundColor: backgroundColor,
         appBar: AppBar(
+          title: Text('Soundscapes'),
+          backgroundColor: appBarColor,
+          centerTitle: true,
           leading: IconButton(
             enableFeedback: true,
-            autofocus: true,
             icon: AnimatedIcon(
               progress: animation,
               icon: playlistAnimatedIcon,
@@ -63,14 +67,18 @@ class _MusicLibrary extends State<MusicLibrary>
                 list.togglePlaylistMenu();
                 checkedCounter.flushPlaylist();
                 checkedCounter.inPlaylistMode = !checkedCounter.inPlaylistMode;
-                print(checkedCounter.inPlaylistMode);
                 flipAnimation ? animation.reverse() : animation.forward();
                 flipAnimation = !flipAnimation;
+                print(checkedCounter.inPlaylistMode);
+
+                if (checkedCounter.inPlaylistMode) {
+                  appBarColor = PlaylistAppBar.color;
+                } else {
+                  appBarColor = LightAppBar.color;
+                }
               });
             },
           ),
-          backgroundColor: Colors.orange,
-          centerTitle: true,
           actions: <Widget>[
             IconButton(
               enableFeedback: true,
@@ -82,8 +90,8 @@ class _MusicLibrary extends State<MusicLibrary>
                   context,
                   MaterialPageRoute(
                       builder: (context) => Playlist(
-                            playlist: checkedCounter.checkedItem,
-                          ))),
+                        playlist: checkedCounter.checkedItem,
+                      ))),
             )
           ],
         ),
@@ -91,17 +99,14 @@ class _MusicLibrary extends State<MusicLibrary>
             padding: EdgeInsets.only(top: 20),
             child: Column(
               children: <Widget>[
-                createCollectionTile(
-                    title: 'Soundscapes',
-                    imageAsset: 'assets/PlaceHolderTutorial.png'),
+                categoryCollectionTitleTile(
+                    title: 'Field', imageAsset: 'assets/FantasyField.jpg'),
                 Expanded(child: PopulateSongLibrary("Soundscapes")),
-                createCollectionTile(
-                    title: 'Tavern',
-                    imageAsset: 'assets/PlaceHolderTutorial.png'),
+                categoryCollectionTitleTile(
+                    title: 'Tavern', imageAsset: 'assets/FantasyTavern.png'),
                 Expanded(child: PopulateSongLibrary("Tavern")),
-                createCollectionTile(
-                    title: 'Combat',
-                    imageAsset: 'assets/PlaceHolderTutorial.png'),
+                categoryCollectionTitleTile(
+                    title: 'Combat', imageAsset: 'assets/FantasyCombat.jpg'),
                 Expanded(child: PopulateSongLibrary("combat"))
               ],
             )),
@@ -127,9 +132,10 @@ class _MusicLibrary extends State<MusicLibrary>
       await isPlay ? someColor = Colors.white : someColor = Colors.purple;
 }
 
-Widget createCollectionTile(
+Widget categoryCollectionTitleTile(
     {@required String imageAsset, @required String title}) {
   return ListTile(
+    contentPadding: EdgeInsets.only(right: 0),
     title: Text(
       title,
       style: titleText,
@@ -137,8 +143,7 @@ Widget createCollectionTile(
     ),
     trailing: Image.asset(
       imageAsset,
-      height: 50,
-      width: 50,
+      width: 100,
     ),
   );
 }

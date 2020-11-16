@@ -50,8 +50,7 @@ class _SliderClass extends State<SliderClass> {
   void initState() => super.initState();
 
   @override
-  Widget build(BuildContext context) =>
-      Slider(
+  Widget build(BuildContext context) => Slider(
         min: 0,
         max: maxSliderValue,
         label: labelBalloon,

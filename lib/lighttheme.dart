@@ -19,4 +19,7 @@ const titleText = TextStyle(
     fontSize: largeText);
 
 const LightAppBar = AppBarTheme(
+    color: Color(0xff2f9c95),
     textTheme: TextTheme(headline5: AppBarText, headline6: titleText));
+
+const PlaylistAppBar = AppBarTheme(color: Color(0xff664147));

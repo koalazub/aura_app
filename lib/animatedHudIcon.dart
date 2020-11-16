@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+//TODO Abstract into generics and identify edge cases where constraints might be needed
+//in case you decide to fuck it up somehow
 class AnimatedHudIcon extends StatefulWidget {
   final AnimatedIconData animatedIconData;
   final double iconSize;
@@ -15,7 +17,7 @@ class AnimatedHudIcon extends StatefulWidget {
 class _AnimatedHudIcon extends State<AnimatedHudIcon>
     with SingleTickerProviderStateMixin {
   AnimationController animation;
-  Duration duration = Duration(milliseconds: 500);
+  Duration duration = Duration(milliseconds: 400);
   var iconSize;
 
   _AnimatedHudIcon(AnimatedIconData animatedIconData, this.iconSize);
@@ -23,7 +25,6 @@ class _AnimatedHudIcon extends State<AnimatedHudIcon>
   bool flipAnim = false;
 
   @override
-  // TODO: implement widget
   @override
   void initState() {
     super.initState();
